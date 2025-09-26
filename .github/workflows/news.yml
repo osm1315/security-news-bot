@@ -1,24 +1,25 @@
 name: Security News Bot
 
 on:
+  workflow_dispatch: # 수동 실행 가능
   schedule:
-    - cron: "0 0 */5 * *"   # 5일에 한 번 (매 5일 0시에 실행)
-  workflow_dispatch:        # 수동 실행도 가능 (지금 바로 실행하려면 이거 쓰면 됨)
+    - cron: "0 0 */5 * *" # 매 5일 0시 자동 실행
 
 jobs:
   fetch-news:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: npm install firecrawl @notionhq/client dotenv
 
       - name: Run Firecrawl
         run: node firecrawl.js
@@ -26,4 +27,3 @@ jobs:
           FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
-
