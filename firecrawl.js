@@ -1,6 +1,6 @@
-import 'dotenv/config';
-import FirecrawlApp from 'firecrawl';
-import { Client } from '@notionhq/client';
+require('dotenv').config();
+const FirecrawlApp = require('firecrawl').default;
+const { Client } = require('@notionhq/client');
 
 const firecrawl = new FirecrawlApp({ apiKey: process.env.FIRECRAWL_API_KEY });
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
